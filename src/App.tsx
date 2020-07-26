@@ -1,42 +1,47 @@
-import React, {useState} from 'react';
-import './App.css';
-import { Hello } from './components/hello/hello';
+import React from 'react';
+import './App.scss';
+import {BrowserRouter as Router, Link, Route, Switch} from 'react-router-dom';
+
+import Home from './pages/home/Home';
+import Posts from './pages/posts/Posts';
+import PostPage from './pages/postpage/PostPage';
 
 function App() {
-  const [clicked, setClicked] = useState<boolean>(false);
-  const [name, setName] = useState<string>('');
-  const [pic, setPic] = useState<string>('');
-
-
-  const btnClickLogin = () => {
-    console.log('Button Clicked');
-    setClicked(true);
-  }
-
-  const btnClickUser = () => {
-    setName("Assem");
-    setPic(require('./profile.jpg'));
-  }
-
-  const btnClickLogout = () => {
-    setClicked(false);
-    setName('');
-    setPic('');
-  }
-
+  
   return (
-    <div className="App">
-      <img src="https://source.unsplash.com/1600x900/?nature,world" alt="background" className="AppBackground"></img>
-      <div className="AppWrapper">
-        { clicked ? 
-        <div>
-          <Hello name = {name} pic = {pic} /> 
-          <button className="AppLoginBtn" onClick={btnClickLogout}>Log Out</button> 
-          <button className="AppLoginBtn" onClick={btnClickUser}>Change User</button>
+    <Router>
+      <div className="App">
+        <nav className="AppNavigation">
+          <ul>
+            <li>
+              <Link to="/">HOME</Link>
+            </li>
+            <li>
+              <Link to="/posts">POSTS</Link>
+            </li>
+            <li>
+              <Link to="/login">LOGIN</Link>
+            </li>
+          </ul>
+        </nav>
+        <div className="AppWrapper">
+          <Switch>
+            <Route exact path="/">
+              <Home/>
+            </Route>
+            <Route path="/posts">
+              <Posts />
+            </Route>
+            <Route path="/post/:postId">
+              <PostPage />
+            </Route>
+            <Route path="*">
+              <h2>Not found</h2>
+            </Route>
+          </Switch>
         </div>
-          : <button className="AppLoginBtn" onClick={btnClickLogin}>Log In</button>}
       </div>
-    </div>
+    </Router>
   );
 }
 

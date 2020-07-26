@@ -1,0 +1,25 @@
+.Home {
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 20px auto;
+    
+    .profile {
+        text-align: center;
+    
+        .profilePic {
+            align-self: center;
+            margin: auto;
+            width: 210px;
+            border-radius: 105px;
+        }
+    }
+
+    .ButtonWrapper {
+        display: flex;
+        flex-direction: row;
+
+    }
+}
