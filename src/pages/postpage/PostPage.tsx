@@ -1,18 +1,31 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { Post } from '../../types/interfaces';
+import { useParams } from 'react-router-dom';
+
+import { getPost } from '../../services/api';
+import { Post, BreadcrumbElements } from '../../types/interfaces';
+ 
+import { Breadcrumb } from '../../components/breadcrumb/Breadcrumb';
  
 import './PostPage.scss';
-import { getPost } from '../../services/api';
 
 export const PostPage: React.FunctionComponent = () => {
     
     let { postId } = useParams();
-    const[post, setPost] = useState<Post | null>(null);
+  
+    const[breadcrumb, setBreadcrumb] = useState<BreadcrumbElements | null>(null);
+    const[post, setPost] = useState<Post>();
 
     useEffect(() => {
-        getPost( postId )
-            .then( res => setPost(res));
+        getPost(postId)
+            .then(data => setPost(data))
+
+        setBreadcrumb({
+            currentPathTitle: postId,
+            navigation: [
+                {title: 'HOME', path: '/'},
+                {title: 'POSTS', path: '/posts'}
+            ]
+        })
     }, [ postId ]); 
 
     return ( 
@@ -21,17 +34,17 @@ export const PostPage: React.FunctionComponent = () => {
                 ?
                     <div className="PostPage">
                         <div className="PostContent AppContainer">
-                            <p className="Breadcrumb">
-                                <Link to="/">HOME&#32;</Link>
-                                &#47;
-                                <Link to="/posts">&#32;POSTS&#32;</Link>
-                                &#47;
-                                { ' ' + postId }
-                            </p>
+                            {breadcrumb ? <Breadcrumb
+                                currentPathTitle = {breadcrumb.currentPathTitle}
+                                navigation = {breadcrumb.navigation}
+                            /> : null }
                             <article className = "IndividualPost">
                                 <h2 className = "PostTitle">
                                     { post.title.toUpperCase() }
                                 </h2>
+                                <h3 className="PostAuthor">
+                                    Author ID: { post.userId }
+                                </h3>
                                 <p className = "PostText">
                                     { post.body.charAt(0).toUpperCase() + post.body.slice(1) }
                                 </p>
@@ -39,7 +52,7 @@ export const PostPage: React.FunctionComponent = () => {
                         </div>
                     </div>
                 :
-                    <h2>Post not found</h2>
+                    null
             }    
         </div>
     );
