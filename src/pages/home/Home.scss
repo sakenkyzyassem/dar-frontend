@@ -22,4 +22,22 @@
         flex-direction: row;
 
     }
+
+    .formGroup {
+        width: 80%;
+        margin-bottom: 12px;
+
+        .formError{
+            color: red;
+        }
+    }
+
+    .formControl {
+        padding: 0.5rem 1rem;
+        height: 25px;
+        display: block;
+        outline: none;
+        border: 1px solid grey;
+        border-radius: 5px;
+    }
 }

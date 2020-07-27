@@ -4,12 +4,14 @@ import { useParams } from 'react-router-dom';
 import { getPost } from '../../services/api';
 import { Post, BreadcrumbElements } from '../../types/interfaces';
  
-import './PostPage.scss';
 import { Breadcrumb } from '../../components/breadcrumb/Breadcrumb';
+ 
+import './PostPage.scss';
 
 export const PostPage: React.FunctionComponent = () => {
     
     let { postId } = useParams();
+  
     const[breadcrumb, setBreadcrumb] = useState<BreadcrumbElements | null>(null);
     const[post, setPost] = useState<Post>();
 

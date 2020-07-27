@@ -3,13 +3,14 @@ import './Button.scss';
 
 type Props = {
     text: string,
-    className: string,
-    clickHandler: () => void
+    className?: string,
+    clickHandler?: () => void,
+    type?: 'button' | 'submit' | 'reset'
 }
 
-export const Button: React.FunctionComponent<Props> = ({ text, className, clickHandler}) => {
+export const Button: React.FunctionComponent<Props> = ({ text, type, className, clickHandler}) => {
 
     return (
-        <button className={'Button ' + className} onClick={clickHandler}>{text}</button> 
+        <button type={type ? type : 'submit'} className={'Button ' + className} onClick={clickHandler}>{text}</button> 
     )
 }

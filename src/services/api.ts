@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Post } from '../types/interfaces'
+import { Post } from '../types/interfaces';
 
 export const getPosts = () => {
 
