@@ -1,19 +1,29 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { Post } from '../../types/interfaces';
-import axios from 'axios';
+import { useParams } from 'react-router-dom';
+
+import { getPost } from '../../services/api';
+import { Post, BreadcrumbElements } from '../../types/interfaces';
  
 import './PostPage.scss';
+import { Breadcrumb } from '../../components/breadcrumb/Breadcrumb';
 
 export const PostPage: React.FunctionComponent = () => {
     
     let { postId } = useParams();
+    const[breadcrumb, setBreadcrumb] = useState<BreadcrumbElements | null>(null);
     const[post, setPost] = useState<Post>();
 
     useEffect(() => {
-        axios.get<Post>(`https://jsonplaceholder.typicode.com/posts/${postId}`)
-                .then(res => res.data)
-                .then(data => setPost(data))
+        getPost(postId)
+            .then(data => setPost(data))
+
+        setBreadcrumb({
+            currentPathTitle: postId,
+            navigation: [
+                {title: 'HOME', path: '/'},
+                {title: 'POSTS', path: '/posts'}
+            ]
+        })
     }, [ postId ]); 
 
     return ( 
@@ -22,17 +32,17 @@ export const PostPage: React.FunctionComponent = () => {
                 ?
                     <div className="PostPage">
                         <div className="PostContent AppContainer">
-                            <p className="Breadcrumb">
-                                <Link to="/">HOME&#32;</Link>
-                                &#47;
-                                <Link to="/posts">&#32;POSTS&#32;</Link>
-                                &#47;
-                                { ' ' + postId }
-                            </p>
+                            {breadcrumb ? <Breadcrumb
+                                currentPathTitle = {breadcrumb.currentPathTitle}
+                                navigation = {breadcrumb.navigation}
+                            /> : null }
                             <article className = "IndividualPost">
                                 <h2 className = "PostTitle">
                                     { post.title.toUpperCase() }
                                 </h2>
+                                <h3 className="PostAuthor">
+                                    Author ID: { post.userId }
+                                </h3>
                                 <p className = "PostText">
                                     { post.body.charAt(0).toUpperCase() + post.body.slice(1) }
                                 </p>
@@ -40,7 +50,7 @@ export const PostPage: React.FunctionComponent = () => {
                         </div>
                     </div>
                 :
-                    <h2>Post not found</h2>
+                    null
             }    
         </div>
     );
