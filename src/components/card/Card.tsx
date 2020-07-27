@@ -13,7 +13,7 @@ export const Card: React.FunctionComponent<PostProps> = ({title, id}) => {
         <article className="Card">
             <div className="CardContent">
                 <h3>{ title }</h3>
-                <Link to={ `/post/${id}`}>READ POST...</Link>
+                <Link to={ `/posts/${id}`}>READ POST...</Link>
             </div>
         </article>
     );

@@ -33,7 +33,7 @@ function App() {
             <Route exact path="/posts">
               <Posts />
             </Route>
-            <Route path="/post/:postId">
+            <Route path="/posts/:postId">
               <PostPage />
             </Route>
             <Route path="/chat">
