@@ -5,6 +5,7 @@ import {BrowserRouter as Router, Link, Route, Switch} from 'react-router-dom';
 import Home from './pages/home/Home';
 import Posts from './pages/posts/Posts';
 import PostPage from './pages/postpage/PostPage';
+import { Chat } from './pages/chat/Chat';
 
 function App() {
   
@@ -29,11 +30,14 @@ function App() {
             <Route exact path="/">
               <Home/>
             </Route>
-            <Route path="/posts">
+            <Route exact path="/posts">
               <Posts />
             </Route>
             <Route path="/post/:postId">
               <PostPage />
+            </Route>
+            <Route path="/chat">
+              <Chat />  
             </Route>
             <Route path="*">
               <h2>Not found</h2>

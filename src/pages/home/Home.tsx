@@ -1,47 +1,93 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import './Home.scss';
-import { Hello } from '../../components/hello/hello';
 import { Button } from '../../components/button/button';
+import { Input } from '../../components/input/Input';
+import { useHistory } from 'react-router-dom';
+
+interface FormError {
+  isEmpty?: boolean;
+  isInvalid?: boolean;
+}
+
+interface UserFormError {
+  firstname: FormError;
+  lastname: FormError;
+}
 
 export const Home: React.FunctionComponent = () => {
 
-  const [clicked, setClicked] = useState<boolean>(false);
-  const [name, setName] = useState<string>('');
-  const [pic, setPic] = useState<string>('');
+  const[userInfo, setUserInfo] = useState<{firstname: string, lastname: string } | null>(null);
+  const history = useHistory();
+  
+  const changeHandler = (field: 'firstname' | 'lastname', value: string) => {
+    console.log(field, value)
+    const newVal = {
+      ...userInfo,
+      [field]: value
+    };
 
-
-  const btnClickLogin = () => {
-    console.log('Button Clicked');
-    setClicked(true);
+    setUserInfo(newVal as any);
   }
+  
+  const emailInputRef = useRef<HTMLInputElement>(null);
+  const userNameInputRef = useRef<HTMLInputElement>(null);
 
-  const btnClickUser = () => {
-    setName("Assem");
-    setPic(require('./profile.jpg'));
-  }
+  const submitHandler = (event: React.FormEvent) => {
+    event.preventDefault();
 
-  const btnClickLogout = () => {
-    setClicked(false);
-    setName('');
-    setPic('');
+    if(emailInputRef && emailInputRef.current){
+      console.log(emailInputRef.current.value);
+    }
+
+    if(userNameInputRef && userNameInputRef.current){
+      console.log(userNameInputRef.current.value);
+    }
+
+    console.log(userInfo);
+    if(userInfo?.firstname){
+      history.push('/chat')
+    }
+
   }
 
     return(
         <div className="Home">
-            { clicked
-              ? 
-                <div>
-                  <Hello name = {name} pic = {pic} /> 
-                  <div className = "ButtonWrapper">
-                    <Button className="AppLoginBtn" clickHandler={btnClickLogout} text = "Log Out"/> 
-                    <Button className="AppLoginBtn" clickHandler={btnClickUser} text="Change User"/>
-                  </div>
-                </div>
-              : 
-                <div className = "ButtonWrapper">
-                  <Button className="AppLoginBtn" clickHandler={btnClickLogin} text="Log In" />
-                </div>
-            }
+          <form onSubmit={submitHandler}>
+            <div className="formGroup">
+              <input
+                type = "email"
+                className = "formControl"
+                ref={emailInputRef}
+                name="email"
+                placeholder="Enter your email" />
+            </div>
+            <div className="formGroup">
+              <input
+                type="username"
+                className = "formControl"
+                ref={userNameInputRef}
+                name="username"
+                placeholder="Enter your user name" />
+            </div>
+            <div className="formGroup">
+              <Input
+                name = 'firstname'
+                required={true}
+                placeholder = 'Enter your first name'
+                onChange = {(value) => changeHandler('firstname', value)}
+              />
+            </div>
+            <div className="formGroup">
+              <Input
+                name = 'lastname'
+                placeholder = 'Enter your last name'
+                onChange = {(value) => changeHandler('lastname', value)}
+              />
+            </div>
+            <div className="ButtonWrapper">
+              <Button type="submit" className="AppLoginBtn" text="Log In" />
+            </div>
+          </form>
         </div>
     )
 }
