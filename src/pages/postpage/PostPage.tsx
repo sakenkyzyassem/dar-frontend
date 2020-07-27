@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Post } from '../../types/interfaces';
-import { getPost } from '../../services/api';
+import axios from 'axios';
  
 import './PostPage.scss';
 
@@ -11,8 +11,9 @@ export const PostPage: React.FunctionComponent = () => {
     const[post, setPost] = useState<Post>();
 
     useEffect(() => {
-        getPost()
-            .then(data => setPost(data.find(post => post.id === parseInt(postId))) );
+        axios.get<Post>(`https://jsonplaceholder.typicode.com/posts/${postId}`)
+                .then(res => res.data)
+                .then(data => setPost(data))
     }, [ postId ]); 
 
     return ( 
