@@ -1,0 +1,25 @@
+.Chat {
+    --highlight-color: #965A55;
+    --primary-color: #4b464b;
+    min-width: 320px;
+    max-height: 450px;
+    background-color: whitesmoke;
+    margin: 24px auto;
+
+    .messageField {
+        min-height: 450px;
+        min-width: inherit;
+        overflow-y: scroll;
+    }
+
+    .sendMessage {
+        position: fixed;
+        display: block;
+        width: max-content;
+        form {
+            display: flex;
+            flex-direction: row;
+        }
+    }
+
+}

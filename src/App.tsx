@@ -21,7 +21,7 @@ function App() {
               <Link to="/posts">POSTS</Link>
             </li>
             <li>
-              <Link to="/login">LOGIN</Link>
+              <Link to="/chat">CHAT</Link>
             </li>
           </ul>
         </nav>
@@ -37,7 +37,7 @@ function App() {
               <PostPage />
             </Route>
             <Route path="/chat">
-              <Chat />  
+              <Chat firstname=''/>  
             </Route>
             <Route path="*">
               <h2>Not found</h2>

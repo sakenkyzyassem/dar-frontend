@@ -14,3 +14,13 @@ export interface BreadcrumbElements {
     currentPathTitle: string,
     navigation: Path[]
 }
+
+export interface UserInfo {
+    firstname: string,
+    lastname?: string
+}
+
+export interface Message {
+    fromUser?: UserInfo,
+    message: string
+}
