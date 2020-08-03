@@ -20,7 +20,16 @@ export interface UserInfo {
     lastname?: string
 }
 
-export interface Message {
-    fromUser?: UserInfo,
-    message: string
+export interface ChatMessage {
+    userId: string,
+    room: string,
+    text: string,
+    time: string
+}
+
+export interface SocketClientConfig {
+    url: string,
+    room: string,
+    userId: string,
+    reconnect?: boolean
 }

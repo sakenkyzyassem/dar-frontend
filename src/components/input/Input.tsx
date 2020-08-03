@@ -7,10 +7,11 @@ type Props = {
     required?: boolean,
     validity?: boolean,
     className?: string,
+    value?: string,
     onChange?: (val: string) => void
 }
 
-export const Input: React.FunctionComponent<Props> = ({name, placeholder, required, validity, className, onChange}) => {
+export const Input: React.FunctionComponent<Props> = ({name, placeholder, required, value, validity, className, onChange}) => {
 
     const[inputValue, setInputValue] = useState<string>('');
     const[inputChanged, setInputChanged] = useState<boolean>(false);
@@ -53,7 +54,7 @@ export const Input: React.FunctionComponent<Props> = ({name, placeholder, requir
     return (
         <div className="Input">
             <input
-                type="text"
+                value={value}
                 name={name}
                 className = {className}
                 placeholder= {placeholder}

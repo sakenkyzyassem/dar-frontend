@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import './Home.scss';
 import { Button } from '../../components/button/button';
 import { Input } from '../../components/input/Input';
 import { useHistory } from 'react-router-dom';
 import { UserInfo } from '../../types/interfaces';
+import { UserContext } from '../../App';
 
 interface FormError {
   isEmpty?: boolean;
@@ -19,6 +20,7 @@ export const Home: React.FunctionComponent = () => {
 
   const[userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const history = useHistory();
+  const userContext = useContext(UserContext);
   
   const changeHandler = (field: 'firstname' | 'lastname', value: string) => {
     console.log(field, value)
@@ -35,10 +37,8 @@ export const Home: React.FunctionComponent = () => {
 
     console.log(userInfo);
     if(userInfo?.firstname){
-      history.push({
-        pathname: `/chat`,
-        state: userInfo
-    })
+      userContext.setUser(userInfo);
+      history.push('/room')
     }
 
   }

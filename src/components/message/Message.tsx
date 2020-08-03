@@ -1,23 +1,22 @@
 import React from 'react';
-import { Message } from '../../types/interfaces';
+import { ChatMessage } from '../../types/interfaces';
 import './Message.scss';
 
-export const MessageBubble: React.FunctionComponent<Message> = ({fromUser, message}) => {
+export const MessageBubble: React.FunctionComponent<ChatMessage> = ({userId, text, time}) => {
 
     return(
         <div className="MssgBubble">
-            { fromUser
-            ?
+            <div className="MessageHeader">
                 <div className="user">
-                    {fromUser.lastname 
-                        ? fromUser.firstname + ' ' + fromUser.lastname
-                        : fromUser.firstname}
+                    {userId}
                 </div>
-            : 
-                null}
-            <div className="message">
+                <div className="time">
+                    {time}
+                </div>            
+            </div>
+                <div className="message">
                 <p>
-                    {message}
+                    {text}
                 </p>
             </div>
         </div>
