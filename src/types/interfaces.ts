@@ -14,3 +14,22 @@ export interface BreadcrumbElements {
     currentPathTitle: string,
     navigation: Path[]
 }
+
+export interface UserInfo {
+    firstname: string,
+    lastname?: string
+}
+
+export interface ChatMessage {
+    userId: string,
+    room: string,
+    text: string,
+    time: string
+}
+
+export interface SocketClientConfig {
+    url: string,
+    room: string,
+    userId: string,
+    reconnect?: boolean
+}

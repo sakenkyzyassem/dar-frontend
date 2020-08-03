@@ -1,0 +1,22 @@
+.Input {
+    width: 100%;
+    
+    input {
+        width: 100%;
+    }
+}
+
+.formGroup {
+    margin-bottom: 12px;
+
+    .formError{
+        color: red;
+    }
+}
+
+.formControl {
+    padding: 0.5rem 1rem;
+    outline: none;
+    border: 1px solid grey;
+    border-radius: 5px;
+}

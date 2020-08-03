@@ -1,0 +1,60 @@
+.Chat {
+    --highlight-color: #965A55;
+    --primary-color: #4b464b;
+    min-width: 320px;
+    max-height: 450px;
+    background-image: url('./bcg.jpg');
+    background-size: contain;
+    background-color: whitesmoke;
+    background-position: center;
+
+    .messageField {
+        min-height: 450px;
+        min-width: inherit;
+        overflow-y: scroll;
+    }
+
+    .sendMessage form {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+        
+            .chatInput {
+                display: inline-block;
+                resize: vertical;
+                padding: .8rem 1.2rem;
+                font-weight: 400;
+                font-size: .8rem;
+                outline: none;
+                border: 1px solid grey;
+                border-right: none;
+                border-radius: 5px 0px 0px 5px;
+                cursor: text;
+            }
+
+            .icon {
+                align-self: center;
+                margin-right: 6px;
+                margin-top: 3px;
+            }
+
+            .SendMssg {
+                padding: .8rem 1.2rem;
+                font-weight: 400;
+                font-size: .8rem;
+                background-color: var(--primary-color);
+                border: 1px solid var(--primary-color);
+                border-radius: 0px 5px 5px 0px;
+                color: #fff;
+
+                &:hover {
+                    background-color: #fff;
+                    color: var(--primary-color);
+                    font-weight: 600;
+                }
+            }
+    
+    }
+
+    
+}

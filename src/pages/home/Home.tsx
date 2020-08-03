@@ -1,8 +1,10 @@
-import React, { useRef, useState } from 'react';
+import React, { useState, useContext } from 'react';
 import './Home.scss';
 import { Button } from '../../components/button/button';
 import { Input } from '../../components/input/Input';
 import { useHistory } from 'react-router-dom';
+import { UserInfo } from '../../types/interfaces';
+import { UserContext } from '../../App';
 
 interface FormError {
   isEmpty?: boolean;
@@ -16,8 +18,9 @@ interface UserFormError {
 
 export const Home: React.FunctionComponent = () => {
 
-  const[userInfo, setUserInfo] = useState<{firstname: string, lastname: string } | null>(null);
+  const[userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const history = useHistory();
+  const userContext = useContext(UserContext);
   
   const changeHandler = (field: 'firstname' | 'lastname', value: string) => {
     console.log(field, value)
@@ -29,23 +32,13 @@ export const Home: React.FunctionComponent = () => {
     setUserInfo(newVal as any);
   }
   
-  const emailInputRef = useRef<HTMLInputElement>(null);
-  const userNameInputRef = useRef<HTMLInputElement>(null);
-
   const submitHandler = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if(emailInputRef && emailInputRef.current){
-      console.log(emailInputRef.current.value);
-    }
-
-    if(userNameInputRef && userNameInputRef.current){
-      console.log(userNameInputRef.current.value);
-    }
-
     console.log(userInfo);
     if(userInfo?.firstname){
-      history.push('/chat')
+      userContext.setUser(userInfo);
+      history.push('/room')
     }
 
   }
@@ -54,31 +47,18 @@ export const Home: React.FunctionComponent = () => {
         <div className="Home">
           <form onSubmit={submitHandler}>
             <div className="formGroup">
-              <input
-                type = "email"
-                className = "formControl"
-                ref={emailInputRef}
-                name="email"
-                placeholder="Enter your email" />
-            </div>
-            <div className="formGroup">
-              <input
-                type="username"
-                className = "formControl"
-                ref={userNameInputRef}
-                name="username"
-                placeholder="Enter your user name" />
-            </div>
-            <div className="formGroup">
               <Input
+                className="formControl"
                 name = 'firstname'
                 required={true}
+                validity={true}
                 placeholder = 'Enter your first name'
                 onChange = {(value) => changeHandler('firstname', value)}
               />
             </div>
             <div className="formGroup">
               <Input
+                className="formControl"
                 name = 'lastname'
                 placeholder = 'Enter your last name'
                 onChange = {(value) => changeHandler('lastname', value)}

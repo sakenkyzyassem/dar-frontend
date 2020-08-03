@@ -1,0 +1,22 @@
+.Room {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .Chat {
+        margin: 10px;
+    }
+}
+
+
+@media screen and (max-width: 629px) {
+    .Room {
+        display: flex;
+        flex-direction: column;
+    
+        .Chat {
+            margin: 10px;
+        }
+    }
+    
+}

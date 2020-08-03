@@ -1,19 +1,27 @@
 import React, { useState, useEffect } from 'react';
+import './Input.scss';
 
 type Props = {
     name: string,
     placeholder: string,
     required?: boolean,
+    validity?: boolean,
+    className?: string,
+    value?: string,
     onChange?: (val: string) => void
 }
 
-export const Input: React.FunctionComponent<Props> = ({name, placeholder, required, onChange}) => {
+export const Input: React.FunctionComponent<Props> = ({name, placeholder, required, value, validity, className, onChange}) => {
 
     const[inputValue, setInputValue] = useState<string>('');
     const[inputChanged, setInputChanged] = useState<boolean>(false);
-    const[inputError, setInputError] = useState<{isEmpty?: boolean; isInvalid?: boolean}>({})
+    const[inputEmpty, setInputEmpty] = useState<boolean>(false);
+    const[inputInvalid, setInputInvalid] = useState<boolean>(false);
 
     const changeHandler = (value: string) => {
+        
+        setInputChanged(true);
+
         setInputValue(value);
 
         if(onChange){
@@ -22,48 +30,39 @@ export const Input: React.FunctionComponent<Props> = ({name, placeholder, requir
     }
     
     useEffect( () => {
-
-        setInputChanged(true);
         
         if(!inputChanged){
             return;
         }
 
         if(required && !inputValue){
-            setInputError({
-                isEmpty: true
-            });
+            setInputEmpty( true );
             return;
         }
     
-        if(inputValue.match(/\s/g)){
-            setInputError({
-              isInvalid: true,
-              isEmpty: false
-          });
+        if(validity && inputValue.match(/\s/g)){
+            setInputInvalid( true );
           return;
         }
     
-        setInputError({
-            isEmpty: false,
-            isInvalid: false
-        });
+        setInputEmpty( false );
+        setInputInvalid( false );
 
-    }, [inputChanged, inputValue, required])
+    }, [inputChanged, inputValue, required, validity])
 
       
     return (
         <div className="Input">
             <input
-                type="text"
+                value={value}
                 name={name}
-                className = "formControl"
+                className = {className}
                 placeholder= {placeholder}
                 onChange={(event) => changeHandler(event.target.value)} 
             />
             <div className="formError">
-                {inputError.isEmpty ? 'This field is required': ''}
-                {inputError.isInvalid ? 'Entered value is not valid': ''}
+                {inputEmpty ? 'This field is required': ''}
+                {inputInvalid ? 'Entered value is not valid': ''}
             </div>
         </div>
 
