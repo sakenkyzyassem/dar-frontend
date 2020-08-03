@@ -4,14 +4,16 @@
     input {
         width: 100%;
     }
+
+    .formError{
+        font-size: small;
+        color: red;
+        position: absolute;
+    }
 }
 
 .formGroup {
     margin-bottom: 12px;
-
-    .formError{
-        color: red;
-    }
 }
 
 .formControl {

@@ -1,17 +1,31 @@
 .Chat {
     --highlight-color: #965A55;
     --primary-color: #4b464b;
-    min-width: 320px;
-    max-height: 450px;
+    width: 320px;
+    height: 450px;
+    display: flex;
+    flex-direction: column;
     background-image: url('./bcg.jpg');
     background-size: contain;
     background-color: whitesmoke;
     background-position: center;
 
     .messageField {
-        min-height: 450px;
-        min-width: inherit;
-        overflow-y: scroll;
+        width: 320px;
+        display: flex;
+        flex: 1;
+        min-height: 0;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: flex-end;
+
+        .messages {
+            width: 320px;
+            flex: 1;
+            justify-content: end;
+            overflow-y: scroll;
+            height: 450px;
+        }
     }
 
     .sendMessage form {
@@ -32,10 +46,16 @@
                 cursor: text;
             }
 
+            button {
+                border: 1px solid grey;
+                border-left: none;
+            }
+
             .icon {
                 align-self: center;
                 margin-right: 6px;
-                margin-top: 3px;
+                outline: none;
+                border: none;
             }
 
             .SendMssg {
