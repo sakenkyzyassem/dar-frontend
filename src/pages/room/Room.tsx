@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Youtube from 'react-youtube';
 import { Chat } from '../chat/Chat';
 
@@ -6,7 +6,20 @@ import './Room.scss';
 import { RoomHeader } from '../../components/roomHeader/RoomHeader';
 import { UserContext } from '../../services/context';
 import { useParams } from 'react-router-dom';
-import { Button } from '../../components/button/button';
+import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
+import PauseCircleFilledIcon from '@material-ui/icons/PauseCircleFilled';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import { makeStyles, createStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles(() => 
+    createStyles({
+        root: {
+            color: '#4b464b',
+            fontSize: 44
+        },
+      }),
+);
 
 enum PlayerStates {
     PLAYING ='PLAYING',
@@ -15,6 +28,7 @@ enum PlayerStates {
 
 export const Room: React.FunctionComponent = () => {
 
+    const styles = useStyles();
     const { id } = useParams();
     const[player, setPlayer] = useState<any>(null);
     const[playerState, setPlayerState] = useState<PlayerStates>();
@@ -36,14 +50,32 @@ export const Room: React.FunctionComponent = () => {
         }
     }
 
+    const playForward = () => {
+        player.seekTo(player.getCurrentTime()+10.0, true);
+    }
+
+    const playBack = () => {        
+        player.seekTo(player.getCurrentTime()-10.0, true);
+    }
+
     return (
         <div className="Room">
             <RoomHeader />
             <div className="roomWrapper">
                 <div className="videoWrapper">
                     <Youtube videoId = { id } containerClassName="Video" onReady={onVideoInit} />
-                    <div className="videoControls">
-                        <Button text={!player || playerState === 'PLAYING' ? "PAUSE" : "PLAY"} type="button" clickHandler={toggleVideo}/>
+                    <div className={"videoControls " + styles.root}>
+                        <button type="button" onClick={playBack} >
+                            <ArrowBackIosIcon style={{ fontSize: 44, color: '#4b464b' }} />
+                        </button>
+                        <button type="button" onClick={toggleVideo}>
+                            {!player || playerState === 'PLAYING' 
+                                ? <PauseCircleFilledIcon style={{ fontSize: 44, color: '#4b464b' }} /> 
+                                : <PlayCircleFilledIcon  style={{ fontSize: 44, color: '#4b464b' }} />}
+                        </button>
+                        <button type="button" onClick={playForward}>
+                            <ArrowForwardIosIcon style={{ fontSize: 44, color: '#4b464b' }} />
+                        </button>
                     </div>
                 </div>
                 <UserContext.Consumer>

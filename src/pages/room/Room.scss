@@ -6,6 +6,24 @@
     .videoWrapper {
         display: flex;
         flex-direction: column;
+
+        .videoControls {
+            margin-top: .8rem;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+
+            button {
+                outline: none;
+                border: none;
+                background-color: transparent;
+
+                &:nth-child(3){
+                    margin-left: 5px;
+                }
+            }
+        }
     }
 
     .roomWrapper {
