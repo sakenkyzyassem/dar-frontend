@@ -7,16 +7,8 @@ import Posts from './pages/posts/Posts';
 import PostPage from './pages/postpage/PostPage';
 import { Room } from './pages/room/Room';
 import { UserInfo } from './types/interfaces';
-
-export const UserContext = React.createContext<UserContext> ({
-  user: null,
-  setUser: () => {}
-})
-
-interface UserContext {
-  user: UserInfo | null;
-  setUser: (user: UserInfo) => void;
-}
+import { UserContext } from './services/context';
+import { Videos } from './pages/videos/Videos';
 
 function App() {
 
@@ -42,7 +34,7 @@ function App() {
           <div className="AppWrapper">
             <Switch>
               <Route exact path="/">
-                <Home/>
+                <Home />
               </Route>
               <Route exact path="/posts">
                 <Posts />
@@ -50,8 +42,11 @@ function App() {
               <Route path="/posts/:postId">
                 <PostPage />
               </Route>
-              <Route path="/room">
+              <Route exact path="/room/:id">
                 <Room />  
+              </Route>
+              <Route path="/videos">
+                <Videos />
               </Route>
               <Route path="*">
                 <h2>Not found</h2>

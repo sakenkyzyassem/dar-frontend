@@ -46,6 +46,7 @@ export const Chat: React.FunctionComponent<Props> = ({user}) => {
     }
 
     useEffect(() => {
+        socketClient.open();
         socketClient.eventEmitter.on('message', onMessage);
 
         return () => {
@@ -63,12 +64,30 @@ export const Chat: React.FunctionComponent<Props> = ({user}) => {
     const onEmojiClick = (event: MouseEvent, emojiObject: IEmojiData) => {
         setChosenEmoji(emojiObject);
         setMessage(message + emojiObject.emoji);
-        setOpenEmoji(false);
     }
 
     return(
         <div className="Chat">
             <div className="messageField">
+                <div className="messages">
+                    {
+                        state.messages && state.messages.map(
+                            (mssg, i) => {
+                                const date = new Date(mssg.time);
+    
+                                return (
+                                    <MessageBubble
+                                        key={i}
+                                        userId = {mssg.userId.split('-')[0]}
+                                        text = {mssg.text}
+                                        time = {`${date.getHours()}:${date.getMinutes()}`}
+                                        room = {mssg.room}
+                                    />
+                                )
+                            }
+                        )
+                    }
+                </div>
                 {
                     openEmoji 
                         ?  
@@ -76,25 +95,7 @@ export const Chat: React.FunctionComponent<Props> = ({user}) => {
                                 <Picker onEmojiClick={onEmojiClick} />
                             </div>
                         :
-                            <div className="messages">
-                                {
-                                    state.messages && state.messages.map(
-                                        (mssg, i) => {
-                                            const date = new Date(mssg.time);
-                
-                                            return (
-                                                <MessageBubble
-                                                    key={i}
-                                                    userId = {mssg.userId.split('-')[0]}
-                                                    text = {mssg.text}
-                                                    time = {`${date.getHours()}:${date.getMinutes()}`}
-                                                    room = {mssg.room}
-                                                />
-                                            )
-                                        }
-                                    )
-                                }
-                            </div>
+                            null
                 }
             </div>
             <div className="sendMessage">

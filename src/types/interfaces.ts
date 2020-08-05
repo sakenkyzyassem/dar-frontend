@@ -33,3 +33,8 @@ export interface SocketClientConfig {
     userId: string,
     reconnect?: boolean
 }
+
+export interface Video {
+    title: string,
+    id: string
+}

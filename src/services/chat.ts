@@ -3,7 +3,7 @@ import { EventEmitter } from 'events';
 import { SocketClientConfig, ChatMessage } from '../types/interfaces';
 
 const config: SocketClientConfig = {
-    url: 'ws://zaaz-live.dar-dev.zone',
+    url: 'wss://zaaz-live.dar-dev.zone',
     reconnect: true,
     userId: 'Assem',
     room: 'DAR123'
@@ -19,7 +19,7 @@ class SocketClient {
     eventEmitter = new EventEmitter();
 
     constructor(private config: SocketClientConfig){
-        this.init(config);
+        this.init();
     }
 
     static getInstance(config: SocketClientConfig) {
@@ -29,8 +29,8 @@ class SocketClient {
         return this.instance;
     }
 
-    init(config: SocketClientConfig){
-        this.socket = new WebSocket(`${config.url}?room=${config.room}&userId=${config.userId}`);
+    init(){
+        this.socket = new WebSocket(`${this.config.url}?room=${this.config.room}&userId=${this.config.userId}`);
         this.socket.addEventListener('close', () => this.onClose());
         this.socket.addEventListener('open', () => this.onOpen());
         this.socket.addEventListener('message', (e) => this.onMessage(e));
@@ -40,7 +40,7 @@ class SocketClient {
         console.log('WEBSOCKET CLOSED');
         if( this.config.reconnect ){
             this.reconnectTimeout = setTimeout(() => {
-                this.init(this.config);
+                this.init();
             }, 5000);
         }
     }
@@ -49,6 +49,12 @@ class SocketClient {
         console.log('WEBSOCKET OPENED');
         if( this.reconnectTimeout ){
             clearTimeout(this.reconnectTimeout);
+        }
+    }
+
+    open () {
+        if(this.socket?.readyState === WebSocket.CLOSED){
+            this.init();
         }
     }
 

@@ -1,7 +1,18 @@
 .Room {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
+
+    .videoWrapper {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .roomWrapper {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
 
     .Chat {
         margin: 10px;
