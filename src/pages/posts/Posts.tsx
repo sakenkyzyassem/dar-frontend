@@ -1,17 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Post } from '../../types/interfaces';
-import { getPosts } from '../../services/api';
 import { Card } from '../../components/card/Card';
 
 import './Posts.scss';
+import { connect } from 'react-redux';
+import { AppState } from '../../state/store';
+import { fetchPosts } from '../../state/posts/actions';
 
-export const Posts: React.FunctionComponent = () => {
+type Props = {
+    posts: Post[],
+    fetchPosts: () => void;
+}
 
-    const[posts, setPosts] = useState<Post[]>([]);
-
+const Posts: React.FunctionComponent<Props>  = ({posts, fetchPosts}) => {
+    
     useEffect(() => {
-        getPosts()
-            .then(data => setPosts(data))
+        fetchPosts();
     }, []); 
 
     return (
@@ -29,4 +33,11 @@ export const Posts: React.FunctionComponent = () => {
     )
 }
 
-export default Posts;
+export default connect(
+    (state: AppState) => ({
+        posts: state.posts.items
+    }),  
+    {
+        fetchPosts
+    }
+)(Posts);
